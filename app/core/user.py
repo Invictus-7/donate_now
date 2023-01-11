@@ -1,3 +1,5 @@
+import logging
+
 from typing import Optional, Union
 
 from fastapi import Depends, Request
@@ -25,15 +27,11 @@ bearer_transport = BearerTransport(tokenUrl='auth/jwt/login')
 
 # Стратегия: JWT-токен
 def get_jwt_strategy() -> JWTStrategy:
-    # - секретное слово, используемое для генерации токена
-    # - срок действия токена в секундах.
     return JWTStrategy(secret=settings.secret, lifetime_seconds=3600)
 
 
-# Создаём объект бэкенда аутентификации, передавая в его конструктор
-# созданные выше параметры.
 auth_backend = AuthenticationBackend(
-    name='jwt',  # Произвольное имя бэкенда (должно быть уникальным).
+    name='jwt',
     transport=bearer_transport,
     get_strategy=get_jwt_strategy,
 )
@@ -55,14 +53,12 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
                 reason='Password should not contain e-mail'
             )
 
-    # Пример метода для действий после успешной регистрации пользователя.
     async def on_after_register(
             self, user: User, request: Optional[Request] = None
     ):
-        print(f'Пользователь {user.email} зарегистрирован.')
+        logging.info(f'Пользователь {user.email} зарегистрирован.')
 
 
-# Корутина, возвращающая объект класса UserManager.
 async def get_user_manager(user_db=Depends(get_user_db)):
     yield UserManager(user_db)
 

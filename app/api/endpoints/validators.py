@@ -67,7 +67,7 @@ async def check_if_invested_gt_full(
 async def check_if_project_is_closed(
         project_in: CharityProject,
 ):
-    if project_in.fully_invested is True:
+    if project_in.fully_invested:
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
             detail='Закрытый проект нельзя редактировать!'

@@ -7,7 +7,6 @@ from app.crud.base import CRUDBase
 from app.models.charity_project import CharityProject
 
 
-# Создаем новый класс, унаследованный от CRUDBase.
 class CharityProjectCRUD(CRUDBase):
 
     async def get_charity_project_id_by_name(

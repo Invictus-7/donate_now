@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from fastapi import APIRouter, HTTPException
 
 from app.core.user import auth_backend, fastapi_users
@@ -34,6 +36,6 @@ def delete_user(id: str):
     """Не используйте удаление, вместо этого деактивируйте пользователей."""
     raise HTTPException(
         # 405 ошибка - метод не разрешен.
-        status_code=405,
+        status_code=HTTPStatus.METHOD_NOT_ALLOWED,
         detail="Удаление пользователей запрещено!"
     )

@@ -6,7 +6,6 @@ from app.models.donation import Donation
 from app.models.user import User
 
 
-# Создаем новый класс, унаследованный от CRUDBase.
 class DonationCRUD(CRUDBase):
 
     async def get_donations_by_user_id(
